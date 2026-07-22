@@ -4,7 +4,11 @@ const PORT = 5000;
 const app = express();
 
 app.get("/", (req, res)=> {
-    res.send("Hello from the server the server is working");
+    try{
+    res.send("Hello World");
+    }catch(error){
+        console.log("Error ", error.message);
+    }
 })
 
 app.listen(PORT, () => {
