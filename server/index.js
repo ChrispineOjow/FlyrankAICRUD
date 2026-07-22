@@ -88,6 +88,65 @@ app.post("/tasks", (req, res)=> {
     }
 })
 
+//Update a task by id
+app.put("/tasks/:id", (req, res)=> {
+    try{
+
+        const taskId = parseInt(req.params.id);
+        const task = tasks.find(t => t.id === taskId);
+
+        if(!task){
+            return res.status(404).json({error: `Task ${taskId} not found`});
+
+        }
+
+        const {title, done } = req.body;
+
+        if(title !== undefined){
+            if (typeof title !== "string" || title.trim() === ""){
+                return res.status(400).json({error: "Title cannot be empty"});
+            }
+            task.title = title.trim();
+        }
+
+        if(done !== undefined){
+            task.done = done;
+        }
+
+        res.status(200).json(task);
+
+    }catch(error){
+        
+        res.status(500).json({error: "Internal Server Error"});
+
+    }
+})
+
+//Delete a task by id
+app.delete("/tasks/:id", (req, res)=> {
+    try{
+
+        const taskId = parseInt(req.params.id, 10);
+        const task = tasks.find(t => t.id === taskId);
+
+        if(!task){
+            return res.status(404).json({error: `Task ${taskId} not found`});
+        }
+
+        tasks = tasks.filter(t => t.id !== taskId);
+        res.status(200).json({
+            message: `Task ${taskId} deleted successfully`,
+            deletedTask: task
+        });
+
+
+
+    }catch(error){
+
+        res.status(500).json({error: "Internal Server Error"});
+    }
+})
+
 
 
 app.listen(PORT, () => {
