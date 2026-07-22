@@ -5,7 +5,7 @@ const app = express();
 
 app.get("/", (req, res)=> {
     try{
-    res.send("Hello World");
+    res.send("Hello Server");
     }catch(error){
         console.log("Error ", error.message);
     }
