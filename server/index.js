@@ -1,10 +1,12 @@
 import express from "express";
+import swaggerUi from "swagger-ui-express";
+import openapiSpec from "./openapi.json" with {type: "json"};
 
 const PORT = 5000;
 const app = express();
 
 app.use(express.json());
-
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(openapiSpec));
 //In Memory "database" pre-filled with 3 example tasks
 
 let tasks = [
